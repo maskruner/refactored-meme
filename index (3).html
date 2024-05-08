@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wheel of Fortune</title>
+<style>
+    /* Add your CSS styling here */
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+    }
+    #wheel-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 50px;
+    }
+    #wheel {
+        width: 300px;
+        height: 300px;
+        border: 5px solid #333;
+        border-radius: 50%;
+        background: radial-gradient(circle, #fff 20%, #dd3838 20%, #dd3838 40%, #222 40%, #222 60%, #00a800 60%, #00a800 80%, #222 80%);
+        position: relative;
+        margin: 0 20px;
+        transition: transform 3s ease-in-out;
+    }
+    #pointer {
+        width: 0;
+        height: 0;
+        border-left: 15px solid transparent;
+        border-right: 15px solid transparent;
+        border-bottom: 25px solid black;
+        position: absolute;
+        top: -15px;
+        left: 142px;
+    }
+    .result {
+        font-size: 24px;
+        margin-top: 20px;
+    }
+</style>
+</head>
+<body>
+    <h1>Welcome to Wheel of Fortune</h1>
+    <p>Place your bet:</p>
+    <input type="number" id="betAmount" min="1" max="100" value="1">
+    <button onclick="betOn('red')">Bet on Red</button>
+    <button onclick="betOn('black')">Bet on Black</button>
+    <p>Your balance: $<span id="balance">100</span></p>
+    
+    <div id="wheel-container">
+        <div id="wheel">
+            <div id="pointer"></div>
+        </div>
+    </div>
+    <p class="result" id="resultMessage"></p>
+    
+    <script>
+        let balance = 100;
+        let spinning = false;
+
+        function betOn(color) {
+            if (spinning) return;
+            
+            const betAmount = parseInt(document.getElementById('betAmount').value);
+            if (betAmount > balance) {
+                alert("Not enough balance!");
+                return;
+            }
+
+            spinning = true;
+            const result = Math.random() < 0.5 ? 'red' : 'black';
+            const wheel = document.getElementById('wheel');
+            const degrees = result === 'red' ? 1800 : -1800;
+            wheel.style.transform = `rotate(${degrees}deg)`;
+
+            setTimeout(() => {
+                spinning = false;
+                if (color === result) {
+                    balance += betAmount;
+                    document.getElementById('resultMessage').innerText = `Congratulations! You won $${betAmount}.`;
+                } else {
+                    balance -= betAmount;
+                    document.getElementById('resultMessage').innerText = `Oops! You lost $${betAmount}.`;
+                }
+                document.getElementById('balance').innerText = balance;
+            }, 3000);
+        }
+		<!-- Wheel of Fortune Game -->
+<div id="wheelOfFortune" class="game-container">
+    <h2>Wheel of Fortune</h2>
+    <p>Select your bet amount:</p>
+    <input type="number" id="betAmountWheel" min="1" max="100" value="1">
+    <button onclick="betOn('red')">Bet on Red</button>
+    <button onclick="betOn('black')">Bet on Black</button>
+    <p>Your balance: $<span id="balanceWheel">100</span></p>
+    <div id="wheel-container">
+        <div id="wheel">
+            <div id="pointer"></div>
+        </div>
+    </div>
+    <p class="result" id="resultMessageWheel"></p>
+</div>
+
+<script>
+    let balanceWheel = 100;
+    let spinning = false;
+
+    function betOn(color) {
+        if (spinning) return;
+
+        const betAmount = parseInt(document.getElementById('betAmountWheel').value);
+        if (betAmount > balanceWheel) {
+            alert("Not enough balance!");
+            return;
+        }
+
+        spinning = true;
+        const result = Math.random() < 0.5 ? 'red' : 'black';
+        const wheel = document.getElementById('wheel');
+        const degrees = result === 'red' ? 1800 : -1800;
+        wheel.style.transform = `rotate(${degrees}deg)`;
+
+        setTimeout(() => {
+            spinning = false;
+            if (color === result) {
+                balanceWheel += betAmount;
+                document.getElementById('resultMessageWheel').innerText = `Congratulations! You won $${betAmount}.`;
+            } else {
+                balanceWheel -= betAmount;
+                document.getElementById('resultMessageWheel').innerText = `Oops! You lost $${betAmount}.`;
+            }
+            document.getElementById('balanceWheel').innerText = balanceWheel;
+        }, 3000);
+    }
+</script>
+
+    </script>
+</body>
+</html>
